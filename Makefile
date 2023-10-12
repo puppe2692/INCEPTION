@@ -10,20 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-all:
-	docker compose -f ./scrs/docker-compose.yml up -d --build
+COMPOSE_FILE = srcs/docker-compose.yml
+
+.PHONY: all re clean stop
+
+all: up
+
+up:
+	docker-compose -f $(COMPOSE_FILE) up -d --build
+
+re: down up
 
 down:
-	docker compose -f ./scrs/docker-compose.yml down
+	docker-compose -f $(COMPOSE_FILE) down
 
-re:
-	docker compose -f scrs/docker-compose.yml up -d --build
+clean: stop
+	docker-compose -f $(COMPOSE_FILE) rm -f
+	docker-compose -f $(COMPOSE_FILE) down --rmi all --remove-orphans
 
-clean:
-	docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
-
-.PHONY: all re down clean
+stop:
+	docker-compose -f $(COMPOSE_FILE) stop
