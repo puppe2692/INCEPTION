@@ -31,7 +31,7 @@ RUN chmod +x /usr/local/bin/auto_config.sh
 ENTRYPOINT ["/usr/local/bin/auto_config.sh"]
 
 #We go the html directory
-WORKDIR /var/www/html/
+WORKDIR /var/www/
 
 #We expose the 9000 port
 EXPOSE 9000
