@@ -22,11 +22,13 @@ up:
 re: down up
 
 down:
-	docker-compose -f $(COMPOSE_FILE) down
+	docker-compose -f $(COMPOSE_FILE) down -v
 
 clean: stop
-	docker-compose -f $(COMPOSE_FILE) rm -f
 	docker-compose -f $(COMPOSE_FILE) down --rmi all --remove-orphans
+
+reset:
+	docker system prune -af 
 
 stop:
 	docker-compose -f $(COMPOSE_FILE) stop
